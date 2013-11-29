@@ -1,8 +1,9 @@
-package com.github.timnew.androidinfrared;
+package com.github.timnew.androidinfrared.sample;
 
 import android.annotation.TargetApi;
 import android.support.v4.app.Fragment;
 import android.os.Build;
+import com.github.timnew.androidinfrared.R;
 import com.googlecode.androidannotations.annotations.EFragment;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)

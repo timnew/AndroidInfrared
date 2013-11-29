@@ -1,5 +1,5 @@
 
-package com.github.timnew.androidinfrared;
+package com.github.timnew.androidinfrared.sample;
 
 import android.app.Application;
 import org.acra.ACRA;

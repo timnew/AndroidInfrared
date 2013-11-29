@@ -1,9 +1,13 @@
-package com.github.timnew.androidinfrared;
+package com.github.timnew.androidinfrared.sample;
 
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import com.github.timnew.androidinfrared.IrdaManager;
+import com.github.timnew.androidinfrared.NecIrSequence;
+import com.github.timnew.androidinfrared.R;
+import com.github.timnew.androidinfrared.RawIrSequence;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EFragment;
 
