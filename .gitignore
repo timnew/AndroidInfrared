@@ -28,5 +28,9 @@ proguard/
 *.iws
 .idea/
 
-out
+AndroidInfraredSample/target/
+.gradle/
+gradle/
+gradlew
+gradlew.bat
 
