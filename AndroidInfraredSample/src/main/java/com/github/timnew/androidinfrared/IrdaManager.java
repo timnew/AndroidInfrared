@@ -36,10 +36,9 @@ public class IrdaManager {
         readIrSendMethod = irdaServiceClass.getMethod("read_irsend");
     }
 
-    public IrdaManager sendSequence(IrSequence sequence) {
-        String code = sequence.getCode();
-        Log.d("IRCode", code);
-        rawWrite(code);
+    public IrdaManager sendSequence(String sequence) {
+        Log.d("IRCode", sequence);
+        rawWrite(sequence);
         return this;
     }
 
