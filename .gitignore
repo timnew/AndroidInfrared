@@ -34,3 +34,4 @@ gradle/
 gradlew
 gradlew.bat
 
+AndroidInfraredSample/gen-external-apklibs

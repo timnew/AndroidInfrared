@@ -21,7 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/r" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/r" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/AndroidInfraredSample-1.0-SNAPSHOT.ap_" />
       <excludeFolder url="file://$MODULE_DIR$/target/AndroidInfraredSample-1.0-SNAPSHOT.apk" />
       <excludeFolder url="file://$MODULE_DIR$/target/AndroidInfraredSample-1.0-SNAPSHOT.jar" />
