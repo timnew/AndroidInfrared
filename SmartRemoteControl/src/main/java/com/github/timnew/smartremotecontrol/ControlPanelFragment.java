@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.webkit.WebView;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.FragmentArg;
 import com.googlecode.androidannotations.annotations.ViewById;
@@ -18,10 +19,19 @@ public class ControlPanelFragment extends Fragment {
     @ViewById(R.id.panel)
     protected WebView panel;
 
+    @Bean
+    protected InfraredEmitter emitter;
+
     @SuppressLint("SetJavaScriptEnabled")
     @AfterViews
     protected void afterView() {
         panel.getSettings().setJavaScriptEnabled(true);
+        panel.addJavascriptInterface(emitter, "IR");
+
+        loadPanel();
+    }
+
+    protected void loadPanel() {
         panel.loadUrl("file:///android_asset/" + layoutUrl);
     }
 }
