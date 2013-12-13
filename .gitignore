@@ -28,10 +28,5 @@ proguard/
 *.iws
 .idea/
 
-AndroidInfraredSample/target/
-.gradle/
-gradle/
-gradlew
-gradlew.bat
-
-AndroidInfraredSample/gen-external-apklibs
+*/target
+*/gen-external-apklibs
