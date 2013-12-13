@@ -14,7 +14,7 @@ public class IrdaProtocols {
         private static final int ONE_SPACE = 60;
         private static final int ZERO_SPACE = 21;
 
-        private static final SequenceDefinition SEQUENCE_DEFINITION = CommandBuilder.simpleSequence(BIT_MARK, ONE_SPACE, BIT_MARK, ZERO_SPACE);
+        private static final SequenceDefinition SEQUENCE_DEFINITION = simpleSequence(BIT_MARK, ONE_SPACE, BIT_MARK, ZERO_SPACE);
 
         public static String buildNEC(int bitCount, int data) {
             return commandBuilder(FREQUENCY)
@@ -32,7 +32,7 @@ public class IrdaProtocols {
         private static final int ONE_MARK = 48;
         private static final int ZERO_MARK = 24;
 
-        private static final SequenceDefinition SEQUENCE_DEFINITION = CommandBuilder.simpleSequence(ONE_MARK, HDR_SPACE, ZERO_MARK, HDR_SPACE);
+        private static final SequenceDefinition SEQUENCE_DEFINITION = simpleSequence(ONE_MARK, HDR_SPACE, ZERO_MARK, HDR_SPACE);
 
         public static String buildSony(int bitCount, int data) {
             return commandBuilder(FREQUENCY)
@@ -114,7 +114,7 @@ public class IrdaProtocols {
         private static final int ONE_SPACE = 95;
         private static final int ZERO_SPACE = 157;
         private static final int TOP_BIT = 0x8000;
-        private static final SequenceDefinition SEQUENCE_DEFINITION = CommandBuilder.simpleSequence(BIT_MARK, ONE_SPACE, BIT_MARK, ZERO_SPACE);
+        private static final SequenceDefinition SEQUENCE_DEFINITION = simpleSequence(BIT_MARK, ONE_SPACE, BIT_MARK, ZERO_SPACE);
 
         public static String buildDISH(int bitCount, int data) {
             return commandBuilder(FREQUENCY)
