@@ -1,10 +1,10 @@
-
 package com.github.timnew.smartremotecontrol;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
+import com.github.timnew.shared.viewpager.FragmentBuilder;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
@@ -27,11 +27,19 @@ public class MainActivity
 
     private void configureViewPager() {
         pagerActionBarAdapter = new PagerActionBarAdapter(getSupportFragmentManager(), getSupportActionBar(), pager);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
+        pagerActionBarAdapter.getFragmentBuilders().add(new FragmentBuilder() {
+            @Override
+            public Fragment buildFragment() {
+                return ControlPanelFragment_.builder().layoutUrl("SamplePanel.html").build();
+            }
+
+            @Override
+            public CharSequence getDisplayName() {
+                return "Test";
+            }
+        });
+
+        pagerActionBarAdapter.notifyDataSetChanged();
     }
 }

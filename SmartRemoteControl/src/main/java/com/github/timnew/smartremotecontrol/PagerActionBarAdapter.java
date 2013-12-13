@@ -1,6 +1,5 @@
 package com.github.timnew.smartremotecontrol;
 
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -46,12 +45,24 @@ public class PagerActionBarAdapter
 
     private void initActionBar() {
         this.actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        updateActionBar();
+    }
+
+    private void updateActionBar() {
+        this.actionBar.removeAllTabs();
+
         for (FragmentBuilder builder : this.fragmentBuilders) {
             ActionBar.Tab tab = this.actionBar.newTab();
             tab.setText(builder.getDisplayName());
             tab.setTabListener(this);
             this.actionBar.addTab(tab);
         }
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        updateActionBar();
     }
 
     public int getCount() {
