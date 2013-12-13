@@ -136,7 +136,7 @@ public class IrdaProtocols {
 
         private static final SequenceDefinition SEQUENCE_DEFINITION = simpleSequence(BIT_MARK, ONE_SPACE, BIT_MARK, ZERO_SPACE);
 
-        public String buildSharp(int bitCount, int data) {
+        public static String buildSharp(int bitCount, int data) {
 
             return commandBuilder(FREQUENCY)
                     .sequence(SEQUENCE_DEFINITION, TOP_BIT, bitCount, data)
