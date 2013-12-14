@@ -30,3 +30,4 @@ proguard/
 
 */target
 */gen-external-apklibs
+**/node_modules/
