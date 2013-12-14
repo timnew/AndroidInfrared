@@ -31,7 +31,7 @@ public class MainActivity
         pagerActionBarAdapter.getFragmentBuilders().add(new FragmentBuilder() {
             @Override
             public Fragment buildFragment() {
-                return ControlPanelFragment_.builder().layoutUrl("SamplePanel.html").build();
+                return ControlPanelFragment_.builder().layoutUrl("panels/LedBulb/index.html").build();
             }
 
             @Override

@@ -1,8 +1,24 @@
-module.exports = (grunt) ->
-  
+buildPathHelper = (basePath, relativePath) ->
+  rootPath = basePath + relativePath + '/'
+  ->
+    result = rootPath
+    result += "#{part}/" for part in arguments
+    result
+
+envs = 
+  android:
+    rootPath: 'file:///android_asset/'  
+  test:
+    rootPath: '/'
+
+loadEnv = (env) ->
+  envs[env] ? envs['android']
+
+module.exports = (grunt) ->  
+  env = loadEnv(process.env.ENV)
+
   grunt.initConfig
-    pkg: grunt.file.readJSON('package.json')
-    
+    pkg: grunt.file.readJSON('package.json')    
     clean:
       all:
         src: ['assets']
@@ -81,7 +97,10 @@ module.exports = (grunt) ->
 
     jade:    
       options:
-        data: {}        
+        data:
+          root: buildPathHelper(env.rootPath)
+          js: buildPathHelper(env.rootPath, 'js')
+          css: buildPathHelper(env.rootPath, 'css')
 
       panels:
         expand: true 
