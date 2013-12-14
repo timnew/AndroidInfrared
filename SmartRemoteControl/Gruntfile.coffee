@@ -4,31 +4,37 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON('package.json')
     
     clean:
-      optoins:
-        "no-write": true
-
       all:
         src: ['assets']
-
+      
       skeleton:
-        expand: true
-        cwd: 'assets'
-        src: ['!panels']
+        src: ['assets/js','assets/css','assets/fonts']
 
-      skeleton_merge:
-        expand: true
-        src: ['assets/{css,js}/merge/']
+      skeleton_merge:        
+        src: ['assets/js/merge','assets/css/merge']
 
       panels:
         src: ['assets/panels/']
 
     copy: 
       skeleton:
-        cwd: 'assets-src/libs/'    
-        src: [ '**' ]
-        dest: 'assets'
-        expand: true  
-      
+        files: [{
+            cwd: 'assets-src/libs/'    
+            src: [ '!{js,css}' ]
+            dest: 'assets'
+            expand: true              
+          },{
+            cwd: 'assets-src/libs/js'    
+            src: [ '*.js', '**.js' ]
+            dest: 'assets/js/merge'
+            expand: true              
+          },{
+            cwd: 'assets-src/libs/css'    
+            src: [ '*.css', '**.css' ]
+            dest: 'assets/css/merge'
+            expand: true              
+          }]
+        
       panels: 
         cwd: 'assets-src/panels/'    
         src: [ '!**/*.stylus', '!**/*.coffee', '!**/*.jade' ]
@@ -45,7 +51,7 @@ module.exports = (grunt) ->
         expand: true
         cwd: 'assets-src/css/'
         src: ['**.stylus']
-        dest: 'assets/css'
+        dest: 'assets/css/merge'
         ext: '.css'
 
       panels:
@@ -58,7 +64,7 @@ module.exports = (grunt) ->
     autoprefixer:
       skeleton:
         expand: true
-        cwd: 'assets/css/'
+        cwd: 'assets/css/merge'
         src:['**.css']
         dest: 'assets/css/merge'
 
@@ -69,9 +75,9 @@ module.exports = (grunt) ->
         dest: 'assets/panels/'
 
     cssmin:
-      skeleton:  
+      skeleton:       
         files:
-          'assets/css/skeleton.css': [ 'assets/css/merge/**.css' ]
+          'assets/css/skeleton.css': ['assets/css/merge/*.css','assets/css/merge/**/*.css']        
 
     jade:    
       options:
@@ -89,7 +95,7 @@ module.exports = (grunt) ->
         expand: true
         cwd: 'assets-src/js/'
         src: ['**.coffee']
-        dest: 'assets/js/skeleton'
+        dest: 'assets/js/merge'
         ext: '.js'
 
       panels:         
@@ -100,11 +106,11 @@ module.exports = (grunt) ->
         ext: '.js'
 
     uglify:
-      skeleton:
-        options:
+      options:
           mangle: false    
+      skeleton:
         files:
-          'assets/js/skeleton.js': [ '' 'assets/js/merge/**.js' ]
+          'assets/js/skeleton.js': ['assets/js/merge/*.js','assets/js/merge/**/*.js']        
         
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
@@ -115,9 +121,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee' 
   grunt.loadNpmTasks 'grunt-contrib-uglify'
 
-  grunt.registerTask 'clean', 'Clean all generated files', ['clean:all']
-
   grunt.registerTask 'skeleton', 'Build skeleton resources for panels', [ 'clean:skeleton', 'copy:skeleton', 'stylus:skeleton', 'autoprefixer:skeleton', 'cssmin:skeleton', 'coffee:skeleton', 'uglify:skeleton', 'clean:skeleton_merge' ]
-  grunt.registerTask 'panels', 'Compile panels', [ 'clean:panels', 'copy:panels', 'stylus:panels', 'autoprefixer:panels', 'cssmin:panels', 'coffee:panels', 'uglify:panels', 'jade:panels' ]
-  grunt.registerTask 'build', 'Build panels with all resources', [ 'clean', 'skeleton', 'panels']  
+  grunt.registerTask 'panels', 'Compile panels', [ 'clean:panels', 'copy:panels', 'stylus:panels', 'autoprefixer:panels', 'coffee:panels', 'jade:panels' ]
+  grunt.registerTask 'build', 'Build panels with all resources', [ 'clean:all', 'skeleton', 'panels']  
+  grunt.registerTask 'default', ['build']
 
