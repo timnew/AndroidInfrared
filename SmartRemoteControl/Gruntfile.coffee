@@ -1,13 +1,13 @@
-buildPathHelper = (basePath, relativePath) ->
-  rootPath = basePath + relativePath + '/'
+buildPathHelper = ->
+  path = require('path')
+  rootPath = path.join.apply(path, arguments)
   ->
-    result = rootPath
-    result += "#{part}/" for part in arguments
-    result
+    joinedRelativePath = path.join.apply(path, arguments)
+    path.join(rootPath, joinedRelativePath)
 
 envs = 
   android:
-    rootPath: 'file:///android_asset/'  
+    rootPath: 'file:///android_asset'
   test:
     rootPath: '/'
 
@@ -130,6 +130,29 @@ module.exports = (grunt) ->
       skeleton:
         files:
           'assets/js/skeleton.js': ['assets/js/merge/*.js','assets/js/merge/**/*.js']        
+    watch:
+      stylesheets:
+        files: 'assets-src/panels/**/*.styl'
+        tasks: [ 'stylus:panels', 'autoprefixer:panels' ]
+      
+      scripts:
+        files: 'assets-src/panels/**/*.coffee'
+        tasks: [ 'coffee:panels' ]
+      
+      jade:
+        files: 'assets-src/panels/**/*.jade'
+        tasks: [ 'jade:panels' ]
+      
+      copy: 
+        files: [ 'assets-src/panels/**', '!assets-src/panels/**/*.styl', '!assets-src/panels/**/*.coffee', '!assets-src/panels/**/*.jade' ]
+        tasks: [ 'copy:panels' ]
+  
+    connect:
+      server:
+        options:
+          port: 4000
+          base: 'assets'
+          hostname: '*'
         
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
@@ -139,9 +162,13 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-jade'
   grunt.loadNpmTasks 'grunt-contrib-coffee' 
   grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-connect'
 
   grunt.registerTask 'skeleton', 'Build skeleton resources for panels', [ 'clean:skeleton', 'copy:skeleton', 'stylus:skeleton', 'autoprefixer:skeleton', 'cssmin:skeleton', 'coffee:skeleton', 'uglify:skeleton', 'clean:skeleton_merge' ]
+
   grunt.registerTask 'panels', 'Compile panels', [ 'clean:panels', 'copy:panels', 'stylus:panels', 'autoprefixer:panels', 'coffee:panels', 'jade:panels' ]
   grunt.registerTask 'build', 'Build panels with all resources', [ 'clean:all', 'skeleton', 'panels']  
   grunt.registerTask 'default', ['build']
+  grunt.registerTask 'dev', "Development mode", ['build', 'connect', 'watch']
 
