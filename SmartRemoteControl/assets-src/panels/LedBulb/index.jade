@@ -3,11 +3,63 @@ extends ../../layouts/layout
 block body
   .container
     .row
-      .col-sm-3
-        button.btn ad
-      .col-sm-3
-        button.btn b
-      .col-sm-3
-        button.btn c
-      .col-sm-3
-        button.btn dd
+      .col-xs-12.grid(data-widget='IrPanel')
+        .btn-group.btn-group-lg
+          a.btn.btn-default(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFFA05F")
+            span.glyphicon.glyphicon-certificate 
+          a.btn.btn-default(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF20DF")
+            span.glyphicon.glyphicon-asterisk
+
+        .btn-group.btn-group-lg
+          a.btn.btn-default(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF609F")
+            span.glyphicon.glyphicon-off(style="color:red;")  
+          a.btn.btn-default(data-ir-type="NEC", data-ir-length="32", data-ir-code="0x0xFFE01F")
+            span.glyphicon.glyphicon-off(style="color:green;") 
+        
+        a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFFD02F")
+            span.glyphicon.glyphicon-record(style="color:#FFFFFF")
+        
+        .btn-group.btn-group-lg
+          a.btn.btn-default(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFFF00F")
+            span Flash
+          a.btn.btn-default(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFFE817")
+            span Stroke  
+          a.btn.btn-default(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFFD827")
+            span Fade
+          a.btn.btn-default(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFFC837")
+            span Smooth  
+
+        .grid
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF906F")
+            span.glyphicon.glyphicon-record(style="color:#FF0000")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFFB04F")
+            span.glyphicon.glyphicon-record(style="color:#FF6E00")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF30CF")
+            span.glyphicon.glyphicon-record(style="color:#D56700")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF708F")
+            span.glyphicon.glyphicon-record(style="color:#E69200")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFFA857")
+            span.glyphicon.glyphicon-record(style="color:#DDDD00")
+
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF10EF")
+            span.glyphicon.glyphicon-record(style="color:#00FF00")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF28D7")
+            span.glyphicon.glyphicon-record(style="color:#00C2F2")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF6897")
+            span.glyphicon.glyphicon-record(style="color:#00B7B7")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF9867")
+            span.glyphicon.glyphicon-record(style="color:#008096")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF18E7")
+            span.glyphicon.glyphicon-record(style="color:#00628A")
+
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF50AF")
+            span.glyphicon.glyphicon-record(style="color:#0000FF")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF58A7")
+            span.glyphicon.glyphicon-record(style="color:#5A00A1")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF8877")
+            span.glyphicon.glyphicon-record(style="color:#600060")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF08F7")
+            span.glyphicon.glyphicon-record(style="color:#840075")
+          a.btn.btn-default.btn-lg(data-ir-type="NEC", data-ir-length="32", data-ir-code="0xFF48B7")
+            span.glyphicon.glyphicon-record(style="color:#9E007E")
+          

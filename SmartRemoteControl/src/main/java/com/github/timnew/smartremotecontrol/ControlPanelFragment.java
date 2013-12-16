@@ -23,8 +23,8 @@ public class ControlPanelFragment extends Fragment {
     @ViewById(R.id.panel)
     protected WebView panel;
 
-//    @Bean
-//    protected InfraredEmitter emitter;
+    @Bean
+    protected InfraredEmitter emitter;
 
     @Bean
     protected AssetsPathProvider pathProvider;
@@ -33,22 +33,14 @@ public class ControlPanelFragment extends Fragment {
     @AfterViews
     protected void afterView() {
         panel.getSettings().setJavaScriptEnabled(true);
-//        panel.addJavascriptInterface(emitter, "ir");
+        panel.addJavascriptInterface(emitter, "ir");
         panel.addJavascriptInterface(pathProvider, "path");
         panel.setWebViewClient(new WebViewClient() {
 
         });
 
         panel.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                Log.d("WebView", consoleMessage.message());
-                return super.onConsoleMessage(consoleMessage);
-            }
         });
-
-//        panel.loadDataWithBaseURL();
-
 
         loadPanel();
     }

@@ -36,7 +36,7 @@ module.exports = (grunt) ->
       skeleton:
         files: [{
             cwd: 'assets-src/libs/'    
-            src: [ '!{js,css}' ]
+            src: [ '**', '!*.js', '!*.css' ]
             dest: 'assets'
             expand: true              
           },{
@@ -147,6 +147,18 @@ module.exports = (grunt) ->
         files: [ 'assets-src/panels/**', '!assets-src/panels/**/*.styl', '!assets-src/panels/**/*.coffee', '!assets-src/panels/**/*.jade' ]
         tasks: [ 'copy:panels' ]
   
+      skeleton_stylesheets:
+        files: 'assets-src/css/*.stylus'
+        tasks: ['copy:skeleton', 'stylus:skeleton', 'cssmin:skeleton', 'clean:skeleton_merge']
+      
+      skeleton_scripts:
+        files: 'assets-src/js/*.coffee'
+        tasks: ['copy:skeleton', 'coffee:skeleton', 'uglify:skeleton', 'clean:skeleton_merge']
+      
+      skeleton_copy:
+        files: ['assets-src/libs/**','assets-src/js/*.js', 'assets-src/css/*.css', '!**.stylus','!**.coffee']
+        tasks: ['copy:skeleton']
+
     connect:
       server:
         options:
@@ -165,7 +177,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-connect'
 
-  grunt.registerTask 'skeleton', 'Build skeleton resources for panels', [ 'clean:skeleton', 'copy:skeleton', 'stylus:skeleton', 'autoprefixer:skeleton', 'cssmin:skeleton', 'coffee:skeleton', 'uglify:skeleton', 'clean:skeleton_merge' ]
+  grunt.registerTask 'skeleton', 'Build skeleton resources for panels', [ 'clean:skeleton', 'copy:skeleton', 'stylus:skeleton', 'cssmin:skeleton', 'coffee:skeleton', 'uglify:skeleton', 'clean:skeleton_merge' ]
 
   grunt.registerTask 'panels', 'Compile panels', [ 'clean:panels', 'copy:panels', 'stylus:panels', 'autoprefixer:panels', 'coffee:panels', 'jade:panels' ]
   grunt.registerTask 'build', 'Build panels with all resources', [ 'clean:all', 'skeleton', 'panels']  
