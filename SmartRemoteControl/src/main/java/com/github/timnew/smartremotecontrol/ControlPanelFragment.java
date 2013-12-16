@@ -7,6 +7,7 @@ import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
@@ -17,6 +18,7 @@ import com.googlecode.androidannotations.annotations.ViewById;
 @EFragment(R.layout.control_panel_fragment)
 public class ControlPanelFragment extends Fragment {
 
+    public static final String PANEL = "Panel";
     @FragmentArg
     protected String layoutUrl;
 
@@ -40,6 +42,31 @@ public class ControlPanelFragment extends Fragment {
         });
 
         panel.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                String messageText = String.format("[%s](#%d):%s", consoleMessage.sourceId(), consoleMessage.lineNumber(), consoleMessage.message());
+                Toast.makeText(getActivity(), consoleMessage.message(), Toast.LENGTH_LONG).show();
+
+                switch (consoleMessage.messageLevel()) {
+                    case DEBUG:
+                        Log.d(PANEL, messageText);
+                        break;
+                    case ERROR:
+                        Log.e(PANEL, messageText);
+                        break;
+                    case LOG:
+                        Log.v(PANEL, messageText);
+                        break;
+                    case TIP:
+                        Log.i(PANEL, messageText);
+                        break;
+                    case WARNING:
+                        Log.w(PANEL, messageText);
+                        break;
+                }
+
+                return true;
+            }
         });
 
         loadPanel();
