@@ -130,6 +130,17 @@ module.exports = (grunt) ->
       skeleton:
         files:
           'assets/js/skeleton.js': ['assets/js/merge/*.js','assets/js/merge/**/*.js']        
+
+    concat:
+      js:
+        options:
+          separator: ';'
+        files:
+          'assets/js/skeleton.js': ['assets/js/merge/*.js','assets/js/merge/**/*.js']
+      css:
+        files:
+          'assets/css/skeleton.css': ['assets/css/merge/*.css','assets/css/merge/**/*.css']
+
     watch:
       stylesheets:
         files: 'assets-src/panels/**/*.styl'
@@ -175,9 +186,10 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee' 
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-contrib-connect'
 
-  grunt.registerTask 'skeleton', 'Build skeleton resources for panels', [ 'clean:skeleton', 'copy:skeleton', 'stylus:skeleton', 'cssmin:skeleton', 'coffee:skeleton', 'uglify:skeleton', 'clean:skeleton_merge' ]
+  grunt.registerTask 'skeleton', 'Build skeleton resources for panels', [ 'clean:skeleton', 'copy:skeleton', 'stylus:skeleton', 'concat:css', 'coffee:skeleton', 'concat:js', 'clean:skeleton_merge' ]
 
   grunt.registerTask 'panels', 'Compile panels', [ 'clean:panels', 'copy:panels', 'stylus:panels', 'autoprefixer:panels', 'coffee:panels', 'jade:panels' ]
   grunt.registerTask 'build', 'Build panels with all resources', [ 'clean:all', 'skeleton', 'panels']  
