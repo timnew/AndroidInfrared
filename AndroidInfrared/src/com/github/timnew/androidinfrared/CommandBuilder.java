@@ -65,6 +65,8 @@ public class CommandBuilder {
             } else {
                 definition.zero(this, index);
             }
+            
+            data <<= 1;
         }
         return this;
     }

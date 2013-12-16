@@ -20,6 +20,7 @@ public class IrdaProtocols {
             return commandBuilder(FREQUENCY)
                     .pair(HDR_MARK, HDR_SPACE)
                     .sequence(SEQUENCE_DEFINITION, bitCount, data)
+                    .mark(BIT_MARK)
                     .build();
         }
     }
