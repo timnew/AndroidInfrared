@@ -1,6 +1,6 @@
 envs = 
   android:
-    basePath: 'file:///android_asset'
+    basePath: 'file:///android_asset/'
   test:
     basePath: null
 
@@ -31,7 +31,7 @@ module.exports = (grunt) ->
         
       panels: 
         cwd: 'assets-src/panels/'    
-        src: [ '!**/*.stylus', '!**/*.coffee', '!**/*.jade' ]
+        src: [ '**/*', '!**/*.stylus', '!**/*.coffee', '!**/*.jade' ]
         dest: 'assets/panels/'
         expand: true   
     
