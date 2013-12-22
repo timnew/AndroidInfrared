@@ -1,0 +1,44 @@
+extends ../../layouts/layout
+
+block body
+  #tv(data-role="page", data-theme="b")
+    div(data-role="header")
+      h1 TV 
+      a.ui-btn.ui-mini.ui-btn-inline.ui-btn-a(href="#box") T-Box
+    div(data-role="content", data-widget='JsonIrPanel', data-ir-mapping='./tv.json')
+      .ui-grid-a
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="av_tv_switch"): span.fa.fa-retweet
+        .ui-block-b
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="power"): span.fa.fa-power-off
+
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="volume_up"): span.fa.fa-volume-up
+        .ui-block-b 
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="program_up"): span.fa.fa-caret-square-o-up
+
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="volume_down"): span.fa.fa-volume-down
+        .ui-block-b 
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="program_down"): span.fa.fa-caret-square-o-down
+
+  #box(data-role="page", data-theme="b")
+    div(data-role="header")
+      h1 T-Box
+      a.ui-btn.ui-mini.ui-btn-inline.ui-btn-a(href="#tv") TV
+    div(data-role="content", data-widget="JsonIrPanel", data-ir-mapping='./box.json')
+      .ui-grid-a
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="power_on"): span.fa.fa-power-off(style="color:green;")
+        .ui-block-b
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="power_off"): span.fa.fa-power-off(style="color:red;")
+
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="volume_up"): span.fa.fa-volume-up
+        .ui-block-b 
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="program_up"): span.fa.fa-caret-square-o-up
+
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="volume_down"): span.fa.fa-volume-down
+        .ui-block-b 
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="program_down"): span.fa.fa-caret-square-o-down

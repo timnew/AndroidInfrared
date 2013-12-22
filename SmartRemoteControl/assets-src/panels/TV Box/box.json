@@ -1,0 +1,32 @@
+{
+  "power_on": {
+    "type": "RC6",
+    "value": 2148541964,
+    "size": 36
+  },
+  "power_off": {
+    "type": "RC6",
+    "value": 2148574732,
+    "size": 36
+  },
+  "volume_up": {
+    "type": "RC6",
+    "value": 2148541968,
+    "size": 36
+  },
+  "volume_down": {
+    "type": "RC6",
+    "value": 2148574737,
+    "size": 36
+  },
+  "program_up": {
+    "type": "RC6",
+    "value": 2148541984,
+    "size": 36
+  },
+  "program_down": {
+    "type": "RC6",
+    "value": 2148574753,
+    "size": 36
+  }
+}
