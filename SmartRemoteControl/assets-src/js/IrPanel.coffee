@@ -5,6 +5,7 @@ class @IrPanel extends Widget
     @element.find('[data-ir-type]').click @onIrButtonClicked
 
   onIrButtonClicked: (e) =>
+    e.preventDefault()
     $button = $(e.currentTarget)
     type = $button.data('irType')    
     

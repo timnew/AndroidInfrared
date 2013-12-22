@@ -1,6 +1,7 @@
 package com.github.timnew.smartremotecontrol;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
@@ -15,10 +16,13 @@ import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.FragmentArg;
 import com.googlecode.androidannotations.annotations.ViewById;
 
+import java.net.URI;
+
 @EFragment(R.layout.control_panel_fragment)
 public class ControlPanelFragment extends Fragment {
 
     public static final String PANEL = "Panel";
+
     @FragmentArg
     protected String layoutUrl;
 
@@ -73,6 +77,13 @@ public class ControlPanelFragment extends Fragment {
     }
 
     protected void loadPanel() {
-        panel.loadUrl("file:///android_asset/" + layoutUrl);
+        String fullUrl;
+
+        if (Uri.parse(layoutUrl).isRelative())
+            fullUrl = "file:///android_asset/" + layoutUrl;
+        else
+            fullUrl = layoutUrl;
+
+        panel.loadUrl(fullUrl);
     }
 }

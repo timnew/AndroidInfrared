@@ -40,6 +40,18 @@ public class MainActivity
             }
         });
 
+        pagerActionBarAdapter.getFragmentBuilders().add(new FragmentBuilder() {
+            @Override
+            public Fragment buildFragment() {
+                return ControlPanelFragment_.builder().layoutUrl("http://192.168.1.6:4000/panels/LedBulb/index.html").build();
+            }
+
+            @Override
+            public CharSequence getDisplayName() {
+                return "Debug";
+            }
+        });
+
         pagerActionBarAdapter.notifyDataSetChanged();
     }
 }

@@ -1,15 +1,8 @@
-buildPathHelper = ->
-  path = require('path')
-  rootPath = path.join.apply(path, arguments)
-  ->
-    joinedRelativePath = path.join.apply(path, arguments)
-    path.join(rootPath, joinedRelativePath)
-
 envs = 
   android:
-    rootPath: 'file:///android_asset'
+    basePath: 'file:///android_asset'
   test:
-    rootPath: '/'
+    basePath: null
 
 loadEnv = (env) ->
   envs[env] ? envs['android']
@@ -26,37 +19,21 @@ module.exports = (grunt) ->
       skeleton:
         src: ['assets/js','assets/css','assets/fonts']
 
-      skeleton_merge:        
-        src: ['assets/js/merge','assets/css/merge']
-
       panels:
         src: ['assets/panels/']
 
     copy: 
-      skeleton:
-        files: [{
-            cwd: 'assets-src/libs/'    
-            src: [ '**', '!*.js', '!*.css' ]
-            dest: 'assets'
-            expand: true              
-          },{
-            cwd: 'assets-src/libs/js'    
-            src: [ '*.js', '**.js' ]
-            dest: 'assets/js/merge'
-            expand: true              
-          },{
-            cwd: 'assets-src/libs/css'    
-            src: [ '*.css', '**.css' ]
-            dest: 'assets/css/merge'
-            expand: true              
-          }]
+      skeleton:        
+        cwd: 'assets-src/libs/'    
+        src: [ '**' ]
+        dest: 'assets'
+        expand: true                        
         
       panels: 
         cwd: 'assets-src/panels/'    
         src: [ '!**/*.stylus', '!**/*.coffee', '!**/*.jade' ]
         dest: 'assets/panels/'
-        expand: true  
-        
+        expand: true   
     
     stylus:
       options:
@@ -66,8 +43,8 @@ module.exports = (grunt) ->
       skeleton:
         expand: true
         cwd: 'assets-src/css/'
-        src: ['**.stylus']
-        dest: 'assets/css/merge'
+        src: ['*.stylus']
+        dest: 'assets/css/'
         ext: '.css'
 
       panels:
@@ -77,30 +54,22 @@ module.exports = (grunt) ->
         dest: 'assets/panels/',
         ext: '.css'    
 
-    autoprefixer:
+    less:
+      options:
+        paths: ['assets-src/css/imports/']
+
       skeleton:
         expand: true
-        cwd: 'assets/css/merge'
-        src:['**.css']
-        dest: 'assets/css/merge'
-
-      panels:
-        expand: true
-        cwd: 'assets/panels/'
-        src: [ '**/*.css' ]
-        dest: 'assets/panels/'
-
-    cssmin:
-      skeleton:       
-        files:
-          'assets/css/skeleton.css': ['assets/css/merge/*.css','assets/css/merge/**/*.css']        
+        cwd: 'assets-src/css'
+        src: ['*.less']
+        dest: 'assets/css'        
+        ext: '.css'
 
     jade:    
       options:
+        pretty: true
         data:
-          root: buildPathHelper(env.rootPath)
-          js: buildPathHelper(env.rootPath, 'js')
-          css: buildPathHelper(env.rootPath, 'css')
+          basePath: env.basePath
 
       panels:
         expand: true 
@@ -114,7 +83,7 @@ module.exports = (grunt) ->
         expand: true
         cwd: 'assets-src/js/'
         src: ['**.coffee']
-        dest: 'assets/js/merge'
+        dest: 'assets/js/'
         ext: '.js'
 
       panels:         
@@ -124,27 +93,10 @@ module.exports = (grunt) ->
         dest: 'assets/panels/'
         ext: '.js'
 
-    uglify:
-      options:
-          mangle: false    
-      skeleton:
-        files:
-          'assets/js/skeleton.js': ['assets/js/merge/*.js','assets/js/merge/**/*.js']        
-
-    concat:
-      js:
-        options:
-          separator: ';'
-        files:
-          'assets/js/skeleton.js': ['assets/js/merge/*.js','assets/js/merge/**/*.js']
-      css:
-        files:
-          'assets/css/skeleton.css': ['assets/css/merge/*.css','assets/css/merge/**/*.css']
-
     watch:
-      stylesheets:
+      stylus:
         files: 'assets-src/panels/**/*.styl'
-        tasks: [ 'stylus:panels', 'autoprefixer:panels' ]
+        tasks: [ 'stylus:panels']
       
       scripts:
         files: 'assets-src/panels/**/*.coffee'
@@ -158,16 +110,20 @@ module.exports = (grunt) ->
         files: [ 'assets-src/panels/**', '!assets-src/panels/**/*.styl', '!assets-src/panels/**/*.coffee', '!assets-src/panels/**/*.jade' ]
         tasks: [ 'copy:panels' ]
   
-      skeleton_stylesheets:
-        files: 'assets-src/css/*.stylus'
-        tasks: ['copy:skeleton', 'stylus:skeleton', 'cssmin:skeleton', 'clean:skeleton_merge']
+      skeleton_less:
+        files: 'assets-src/css/**.less'
+        tasks: ['less:skeleton']
+
+      skeleton_stylus:
+        files: 'assets-src/css/**.stylus'
+        tasks: ['stylus:skeleton']
       
       skeleton_scripts:
-        files: 'assets-src/js/*.coffee'
-        tasks: ['copy:skeleton', 'coffee:skeleton', 'uglify:skeleton', 'clean:skeleton_merge']
+        files: 'assets-src/js/**.coffee'
+        tasks: ['coffee:skeleton']
       
       skeleton_copy:
-        files: ['assets-src/libs/**','assets-src/js/*.js', 'assets-src/css/*.css', '!**.stylus','!**.coffee']
+        files: ['assets-src/libs/**','assets-src/js/*.js', 'assets-src/css/*.css', '!**.less', '!**.stylus','!**.coffee']
         tasks: ['copy:skeleton']
 
     connect:
@@ -180,18 +136,15 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-stylus'
-  grunt.loadNpmTasks 'grunt-autoprefixer'
-  grunt.loadNpmTasks 'grunt-contrib-cssmin'  
   grunt.loadNpmTasks 'grunt-contrib-jade'
   grunt.loadNpmTasks 'grunt-contrib-coffee' 
-  grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
-  grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-contrib-connect'
+  grunt.loadNpmTasks 'grunt-contrib-less'
 
-  grunt.registerTask 'skeleton', 'Build skeleton resources for panels', [ 'clean:skeleton', 'copy:skeleton', 'stylus:skeleton', 'concat:css', 'coffee:skeleton', 'concat:js', 'clean:skeleton_merge' ]
+  grunt.registerTask 'skeleton', 'Build skeleton resources for panels', [ 'clean:skeleton', 'copy:skeleton', 'stylus:skeleton', 'less:skeleton', 'coffee:skeleton']
 
-  grunt.registerTask 'panels', 'Compile panels', [ 'clean:panels', 'copy:panels', 'stylus:panels', 'autoprefixer:panels', 'coffee:panels', 'jade:panels' ]
+  grunt.registerTask 'panels', 'Compile panels', [ 'clean:panels', 'copy:panels', 'stylus:panels', 'coffee:panels', 'jade:panels' ]
   grunt.registerTask 'build', 'Build panels with all resources', [ 'clean:all', 'skeleton', 'panels']  
   grunt.registerTask 'default', ['build']
   grunt.registerTask 'dev', "Development mode", ['build', 'connect', 'watch']

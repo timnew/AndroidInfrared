@@ -1,12 +1,25 @@
 !!! 5
 html
   head
+    if basePath
+      base(href=basePath)
+    else
+      base(href='/')
+    
     meta(charset='utf-8')
     meta(name="viewport",content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
     
-    block head
-      link(rel='stylesheet', href=css('skeleton.css'))
-      script(src=js('skeleton.js'))
+    block stylesheets
+      link(rel='stylesheet', href='css/jquery.mobile.css')      
+      link(rel='stylesheet', href='css/font-awesome.css')
+
+    block javascripts
+      script(src='js/jquery.js')
+      script(src='js/jquery-mobile.js')      
+
+    block widgets
+      script(src='js/widget.js')
+      script(src='js/IrPanel.js')
 
   body
     block body
