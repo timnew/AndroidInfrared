@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.timnew.smartremotecontrol.ControlPanelFragment.PANEL;
+import static com.github.timnew.smartremotecontrol.ControlPanelFragment.PANELS_PATH;
 import static com.github.timnew.smartremotecontrol.ControlPanelFragment.PANEL_PATH_TEMPLATE;
 
 public class PagerActionBarAdapter
@@ -48,7 +48,10 @@ public class PagerActionBarAdapter
 
     private void initActionBar() {
         this.actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
         rescanPanels();
+
+        updateActionBar();
     }
 
     public void rescanPanels() {
@@ -58,7 +61,7 @@ public class PagerActionBarAdapter
         AssetManager am = res.getAssets();
 
         try {
-            String[] panelDirs = am.list(PANEL);
+            String[] panelDirs = am.list(PANELS_PATH);
 
             for (String panel : panelDirs) {
                 final String name = panel;
@@ -134,5 +137,21 @@ public class PagerActionBarAdapter
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    }
+
+    public void registerRemotePanel(final String name, final String url) {
+        fragmentBuilders.add(new FragmentBuilder() {
+            @Override
+            public Fragment buildFragment() {
+                return ControlPanelFragment_.builder().layoutUrl(url).build();
+            }
+
+            @Override
+            public CharSequence getDisplayName() {
+                return name;
+            }
+        });
+
+        updateActionBar();
     }
 }
