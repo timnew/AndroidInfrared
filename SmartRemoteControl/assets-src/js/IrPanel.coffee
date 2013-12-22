@@ -24,5 +24,3 @@ class @IrPanel extends Widget
   parseCode: (rawCode) ->
     return rawCode if typeof(rawCode) is 'number'
     parseInt(rawCode, 16)
-
-
