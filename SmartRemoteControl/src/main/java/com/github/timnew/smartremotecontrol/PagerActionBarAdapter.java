@@ -4,18 +4,20 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.github.timnew.shared.viewpager.FragmentBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.github.timnew.smartremotecontrol.ControlPanelFragment.PANEL;
+import static com.github.timnew.smartremotecontrol.ControlPanelFragment.PANEL_PATH_TEMPLATE;
 
 public class PagerActionBarAdapter
         extends FragmentPagerAdapter
@@ -26,21 +28,17 @@ public class PagerActionBarAdapter
     private final List<FragmentBuilder> fragmentBuilders;
     private final Context context;
 
-    public PagerActionBarAdapter(Context applicationContext, FragmentManager fragmentManager, ActionBar actionBar, ViewPager pager) {
-        super(fragmentManager);
+    public PagerActionBarAdapter(SherlockFragmentActivity activity, ViewPager pager) {
+        super(activity.getSupportFragmentManager());
 
-        this.context = applicationContext;
-
-        this.actionBar = actionBar;
+        this.context = activity.getApplicationContext();
+        this.actionBar = activity.getSupportActionBar();
         this.pager = pager;
+
         this.fragmentBuilders = new ArrayList<FragmentBuilder>();
 
         initPager();
         initActionBar();
-    }
-
-    public List<FragmentBuilder> getFragmentBuilders() {
-        return fragmentBuilders;
     }
 
     private void initPager() {
@@ -60,11 +58,11 @@ public class PagerActionBarAdapter
         AssetManager am = res.getAssets();
 
         try {
-            String[] panelDirs = am.list("panels");
+            String[] panelDirs = am.list(PANEL);
 
             for (String panel : panelDirs) {
                 final String name = panel;
-                final String panelFile = String.format("file:///android_asset/panels/%s/index.html", panel);
+                final String panelFile = String.format(PANEL_PATH_TEMPLATE, panel);
 
                 fragmentBuilders.add(new FragmentBuilder() {
                     @Override

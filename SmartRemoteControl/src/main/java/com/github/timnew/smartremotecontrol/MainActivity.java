@@ -24,7 +24,7 @@ public class MainActivity
     }
 
     private void configureViewPager() {
-        pagerActionBarAdapter = new PagerActionBarAdapter(getApplicationContext(), getSupportFragmentManager(), getSupportActionBar(), pager);
+        pagerActionBarAdapter = new PagerActionBarAdapter(this, pager);
 
         pagerActionBarAdapter.notifyDataSetChanged();
     }
