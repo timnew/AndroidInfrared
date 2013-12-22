@@ -1,10 +1,13 @@
 package com.github.timnew.smartremotecontrol;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -19,6 +22,7 @@ import com.googlecode.androidannotations.annotations.ViewById;
 public class ControlPanelFragment extends Fragment {
 
     public static final String PANEL_PATH_TEMPLATE = "file:///android_asset/panels/%s/index.html";
+    public static final String PANELS_PATH = "panels";
     public static final String PANEL = "Panel";
 
     @FragmentArg
@@ -30,16 +34,19 @@ public class ControlPanelFragment extends Fragment {
     @Bean
     protected InfraredEmitter emitter;
 
-    @Bean
-    protected AssetsPathProvider pathProvider;
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @SuppressLint("SetJavaScriptEnabled")
     @AfterViews
     protected void afterView() {
-        panel.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = panel.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setAllowContentAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+
         panel.addJavascriptInterface(emitter, "ir");
-        panel.addJavascriptInterface(pathProvider, "path");
         panel.setWebViewClient(new WebViewClient() {
+
         });
 
         panel.setWebChromeClient(new WebChromeClient() {
