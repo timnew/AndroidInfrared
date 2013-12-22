@@ -1,10 +1,8 @@
 package com.github.timnew.smartremotecontrol;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.github.timnew.shared.viewpager.FragmentBuilder;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
@@ -26,31 +24,7 @@ public class MainActivity
     }
 
     private void configureViewPager() {
-        pagerActionBarAdapter = new PagerActionBarAdapter(getSupportFragmentManager(), getSupportActionBar(), pager);
-
-        pagerActionBarAdapter.getFragmentBuilders().add(new FragmentBuilder() {
-            @Override
-            public Fragment buildFragment() {
-                return ControlPanelFragment_.builder().layoutUrl("panels/LedBulb/index.html").build();
-            }
-
-            @Override
-            public CharSequence getDisplayName() {
-                return "Test";
-            }
-        });
-
-        pagerActionBarAdapter.getFragmentBuilders().add(new FragmentBuilder() {
-            @Override
-            public Fragment buildFragment() {
-                return ControlPanelFragment_.builder().layoutUrl("http://192.168.1.6:4000/panels/LedBulb/index.html").build();
-            }
-
-            @Override
-            public CharSequence getDisplayName() {
-                return "Debug";
-            }
-        });
+        pagerActionBarAdapter = new PagerActionBarAdapter(getApplicationContext(), getSupportFragmentManager(), getSupportActionBar(), pager);
 
         pagerActionBarAdapter.notifyDataSetChanged();
     }

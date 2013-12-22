@@ -1,5 +1,8 @@
 package com.github.timnew.smartremotecontrol;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,10 +12,10 @@ import android.support.v4.view.ViewPager;
 import com.actionbarsherlock.app.ActionBar;
 import com.github.timnew.shared.viewpager.FragmentBuilder;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Arrays.asList;
 
 public class PagerActionBarAdapter
         extends FragmentPagerAdapter
@@ -21,14 +24,16 @@ public class PagerActionBarAdapter
     private final ActionBar actionBar;
     private final ViewPager pager;
     private final List<FragmentBuilder> fragmentBuilders;
+    private final Context context;
 
-    public PagerActionBarAdapter(FragmentManager fragmentManager, ActionBar actionBar, ViewPager pager, FragmentBuilder... fragmentBuilders) {
+    public PagerActionBarAdapter(Context applicationContext, FragmentManager fragmentManager, ActionBar actionBar, ViewPager pager) {
         super(fragmentManager);
+
+        this.context = applicationContext;
 
         this.actionBar = actionBar;
         this.pager = pager;
         this.fragmentBuilders = new ArrayList<FragmentBuilder>();
-        this.fragmentBuilders.addAll(asList(fragmentBuilders));
 
         initPager();
         initActionBar();
@@ -45,7 +50,37 @@ public class PagerActionBarAdapter
 
     private void initActionBar() {
         this.actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        updateActionBar();
+        rescanPanels();
+    }
+
+    public void rescanPanels() {
+        this.fragmentBuilders.clear();
+
+        Resources res = context.getResources();
+        AssetManager am = res.getAssets();
+
+        try {
+            String[] panelDirs = am.list("panels");
+
+            for (String panel : panelDirs) {
+                final String name = panel;
+                final String panelFile = String.format("file:///android_asset/panels/%s/index.html", panel);
+
+                fragmentBuilders.add(new FragmentBuilder() {
+                    @Override
+                    public Fragment buildFragment() {
+                        return ControlPanelFragment_.builder().layoutUrl(panelFile).build();
+                    }
+
+                    @Override
+                    public CharSequence getDisplayName() {
+                        return name;
+                    }
+                });
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateActionBar() {

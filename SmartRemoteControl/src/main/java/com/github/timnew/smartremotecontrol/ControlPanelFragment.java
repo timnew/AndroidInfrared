@@ -22,6 +22,7 @@ import java.net.URI;
 public class ControlPanelFragment extends Fragment {
 
     public static final String PANEL = "Panel";
+    public static final String ASSET_PATH = "file:///android_asset/";
 
     @FragmentArg
     protected String layoutUrl;
@@ -42,7 +43,6 @@ public class ControlPanelFragment extends Fragment {
         panel.addJavascriptInterface(emitter, "ir");
         panel.addJavascriptInterface(pathProvider, "path");
         panel.setWebViewClient(new WebViewClient() {
-
         });
 
         panel.setWebChromeClient(new WebChromeClient() {
@@ -80,7 +80,7 @@ public class ControlPanelFragment extends Fragment {
         String fullUrl;
 
         if (Uri.parse(layoutUrl).isRelative())
-            fullUrl = "file:///android_asset/" + layoutUrl;
+            fullUrl = ASSET_PATH + layoutUrl;
         else
             fullUrl = layoutUrl;
 
