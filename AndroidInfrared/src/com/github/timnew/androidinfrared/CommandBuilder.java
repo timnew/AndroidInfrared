@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandBuilder {
-    public static final int DEFAULT_TOP_BIT = 0x80000000;
+    public static final int TOP_BIT_32 = 0x1 << 31;
+    public static final long TOP_BIT_64 = 0x1L << 63;
     private final int frequency;
     private final List<Integer> buffer;
     private Boolean lastMark;
@@ -55,17 +56,21 @@ public class CommandBuilder {
     }
 
     public CommandBuilder sequence(SequenceDefinition definition, int length, int data) {
-        return sequence(definition, DEFAULT_TOP_BIT, length, data);
+        return sequence(definition, TOP_BIT_32, length, data);
     }
 
-    public CommandBuilder sequence(SequenceDefinition definition, int topBit, int length, int data) {
+    public CommandBuilder sequence(SequenceDefinition definition, int length, long data) {
+        return sequence(definition, TOP_BIT_64, length, data);
+    }
+
+    public CommandBuilder sequence(SequenceDefinition definition, long topBit, int length, long data) {
         for (int index = 0; index < length; index++) {
             if ((data & topBit) == topBit) {
                 definition.one(this, index);
             } else {
                 definition.zero(this, index);
             }
-            
+
             data <<= 1;
         }
         return this;
@@ -80,6 +85,14 @@ public class CommandBuilder {
         }
 
         return result.toString();
+    }
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public List<Integer> getBuffer() {
+        return buffer;
     }
 
     public static SequenceDefinition simpleSequence(final int oneMark, final int oneSpace, final int zeroMark, final int zeroSpace) {

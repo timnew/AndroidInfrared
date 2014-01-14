@@ -35,10 +35,10 @@ public class IrdaProtocols {
 
         private static final SequenceDefinition SEQUENCE_DEFINITION = simpleSequence(ONE_MARK, HDR_SPACE, ZERO_MARK, HDR_SPACE);
 
-        public static String buildSony(int bitCount, int data) {
+        public static String buildSony(int bitCount, long data) {
             return commandBuilder(FREQUENCY)
                     .pair(HDR_MARK, HDR_SPACE)
-                    .sequence(SEQUENCE_DEFINITION, bitCount, data << (32 - bitCount))
+                    .sequence(SEQUENCE_DEFINITION, bitCount, data << (64 - bitCount))
                     .build();
         }
     }
@@ -61,12 +61,12 @@ public class IrdaProtocols {
         };
 
         // Note: first bit must be a one (start bit)
-        public static String buildRC5(int bitCount, int data) {
+        public static String buildRC5(int bitCount, long data) {
             return commandBuilder(FREQUENCY)
                     .mark(T1)
                     .space(T1)
                     .mark(T1)
-                    .sequence(SEQUENCE_DEFINITION, bitCount, data << (32 - bitCount))
+                    .sequence(SEQUENCE_DEFINITION, bitCount, data << (64 - bitCount))
                     .build();
         }
     }
@@ -97,11 +97,11 @@ public class IrdaProtocols {
         };
 
         // Caller needs to take care of flipping the toggle bit
-        public static String buildRC6(int bitCount, int data) {
+        public static String buildRC6(int bitCount, long data) {
             return commandBuilder(FREQUENCY)
                     .pair(HDR_MARK, HDR_SPACE)
                     .pair(T1, T1)
-                    .sequence(SEQUENCE_DEFINITION, bitCount, data << (32 - bitCount))
+                    .sequence(SEQUENCE_DEFINITION, bitCount, data << (64 - bitCount))
                     .build();
         }
     }
@@ -115,6 +115,7 @@ public class IrdaProtocols {
         private static final int ONE_SPACE = 95;
         private static final int ZERO_SPACE = 157;
         private static final int TOP_BIT = 0x8000;
+
         private static final SequenceDefinition SEQUENCE_DEFINITION = simpleSequence(BIT_MARK, ONE_SPACE, BIT_MARK, ZERO_SPACE);
 
         public static String buildDISH(int bitCount, int data) {
@@ -132,19 +133,18 @@ public class IrdaProtocols {
         private static final int ONE_SPACE = 69;
         private static final int ZERO_SPACE = 30;
 
-        private static final int TOGGLE_MASK = 0x3FF;
+        private static final int INVERSE_MASK = 0x3FF;
         private static final int TOP_BIT = 0x4000;
 
         private static final SequenceDefinition SEQUENCE_DEFINITION = simpleSequence(BIT_MARK, ONE_SPACE, BIT_MARK, ZERO_SPACE);
 
         public static String buildSharp(int bitCount, int data) {
-
             return commandBuilder(FREQUENCY)
                     .sequence(SEQUENCE_DEFINITION, TOP_BIT, bitCount, data)
                     .pair(BIT_MARK, ZERO_SPACE)
                     .delay(46)
 
-                    .sequence(SEQUENCE_DEFINITION, TOP_BIT, bitCount, data ^ TOGGLE_MASK)
+                    .sequence(SEQUENCE_DEFINITION, TOP_BIT, bitCount, data ^ INVERSE_MASK)
                     .pair(BIT_MARK, ZERO_SPACE)
                     .delay(46)
                     .build();
@@ -186,13 +186,13 @@ public class IrdaProtocols {
 
         private static final SequenceDefinition SEQUENCE_DEFINITION = simpleSequence(BIT_MARK, ONE_SPACE, BIT_MARK, ZERO_SPACE);
 
-        public static String buildJVC(int bitCount, int data, boolean repeat) {
+        public static String buildJVC(int bitCount, long data, boolean repeat) {
             CommandBuilder builder = commandBuilder(FREQUENCY);
 
             if (!repeat)
                 builder.pair(HDR_MARK, HDR_SPACE);
 
-            return builder.sequence(SEQUENCE_DEFINITION, bitCount, data << (32 - bitCount))
+            return builder.sequence(SEQUENCE_DEFINITION, bitCount, data << (64 - bitCount))
                     .mark(BIT_MARK)
                     .build();
         }

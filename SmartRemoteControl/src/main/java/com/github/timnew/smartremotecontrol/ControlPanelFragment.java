@@ -23,7 +23,7 @@ public class ControlPanelFragment extends Fragment {
 
     public static final String PANEL_PATH_TEMPLATE = "file:///android_asset/panels/%s/index.html";
     public static final String PANELS_PATH = "panels";
-    public static final String PANEL = "Panel";
+    public static final String IR_PANEL = "IR Panel";
 
     @FragmentArg
     protected String layoutUrl;
@@ -46,7 +46,6 @@ public class ControlPanelFragment extends Fragment {
 
         panel.addJavascriptInterface(emitter, "ir");
         panel.setWebViewClient(new WebViewClient() {
-
         });
 
         panel.setWebChromeClient(new WebChromeClient() {
@@ -57,19 +56,19 @@ public class ControlPanelFragment extends Fragment {
 
                 switch (consoleMessage.messageLevel()) {
                     case DEBUG:
-                        Log.d(PANEL, messageText);
+                        Log.d(IR_PANEL, messageText);
                         break;
                     case ERROR:
-                        Log.e(PANEL, messageText);
+                        Log.e(IR_PANEL, messageText);
                         break;
                     case LOG:
-                        Log.v(PANEL, messageText);
+                        Log.v(IR_PANEL, messageText);
                         break;
                     case TIP:
-                        Log.i(PANEL, messageText);
+                        Log.i(IR_PANEL, messageText);
                         break;
                     case WARNING:
-                        Log.w(PANEL, messageText);
+                        Log.w(IR_PANEL, messageText);
                         break;
                 }
 
