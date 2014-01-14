@@ -1,32 +1,32 @@
 {
-  "power": {
-    "type": "NEC",
-    "value": 551489775,
-    "size": 32
-  },
-  "volume_up": {
-    "type": "NEC",
-    "value": 551502015,
-    "size": 32
-  },
-  "volume_down": {
-    "type": "NEC",
-    "value": 551534655,
-    "size": 32
-  },
-  "program_up": {
-    "type": "NEC",
-    "value": 551485695,
-    "size": 32
-  },
-  "program_down": {
-    "type": "NEC",
-    "value": 551518335,
-    "size": 32
-  },
-  "av_tv_switch": {
-    "type": "NEC",
-    "value": 551538735,
-    "size": 32
-  }
+	"power": {
+		"type": "NEC",
+		"code": 551489775,
+		"length": 32
+	},
+	"volume_up": {
+		"type": "NEC",
+		"code": 551502015,
+		"length": 32
+	},
+	"volume_down": {
+		"type": "NEC",
+		"code": 551534655,
+		"length": 32
+	},
+	"program_up": {
+		"type": "NEC",
+		"code": 551485695,
+		"length": 32
+	},
+	"program_down": {
+		"type": "NEC",
+		"code": 551518335,
+		"length": 32
+	},
+	"av_tv_switch": {
+		"type": "NEC",
+		"code": 551538735,
+		"length": 32
+	}
 }

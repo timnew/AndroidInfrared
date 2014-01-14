@@ -34,6 +34,6 @@ class @JsonIrPanel extends Widget
     return unless sendFunc?
 
     if(command.type is 'Panasonic')      
-      sendFunc.call(ir, command.address, command.value)
+      sendFunc.call(ir, command.address, command.code)
     else      
-      sendFunc.call(ir, command.size, command.value)
+      sendFunc.call(ir, command.length, command.code)
