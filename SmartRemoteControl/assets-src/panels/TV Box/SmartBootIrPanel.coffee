@@ -1,4 +1,4 @@
-class @SmartBootIrPanel extends JsonIrPanel
+class @SmartBootIrPanel extends SimplePanel
   bindDom: ->
     super()
     @smartSwitch = @element.find('#smart-switch')  

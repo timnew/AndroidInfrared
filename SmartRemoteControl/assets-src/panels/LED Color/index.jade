@@ -1,5 +1,8 @@
 extends ../../layouts/layout
 
+block append widgets
+  script(src='panels/LED Color/irPanel.js')
+
 block body
   div(data-role="page", data-theme="b")
     div(data-role="content", data-widget='IrPanel')
