@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandBuilder {
-    public static final int TOP_BIT_32 = 0x1 << 31;
+    public static final long TOP_BIT_32 = 0x1L << 31;
     public static final long TOP_BIT_64 = 0x1L << 63;
     private final int frequency;
     private final List<Integer> buffer;
@@ -65,7 +65,7 @@ public class CommandBuilder {
 
     public CommandBuilder sequence(SequenceDefinition definition, long topBit, int length, long data) {
         for (int index = 0; index < length; index++) {
-            if ((data & topBit) == topBit) {
+            if ((data & topBit) != 0) {
                 definition.one(this, index);
             } else {
                 definition.zero(this, index);

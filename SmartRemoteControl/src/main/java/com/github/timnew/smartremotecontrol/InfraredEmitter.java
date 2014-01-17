@@ -43,11 +43,7 @@ public class InfraredEmitter {
 
     public void NEC(int size, long data) {
         logAction("NEC", size, data);
-        try {
-            manager.sendSequence(buildNEC(size, (int) data));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        manager.sendSequence(buildNEC(size, (int) data));
     }
 
     public void Sony(int size, long data) {
@@ -84,5 +80,4 @@ public class InfraredEmitter {
         logAction("JVC", size, data);
         manager.sendSequence(buildJVC(size, data, false));
     }
-
 }
