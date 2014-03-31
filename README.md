@@ -36,9 +36,15 @@ Sister Project
 
 To decode and record the ir code from a existing remote control, such as TV remote or AirCon Remote, you can try [IRRecorder](https://github.com/timnew/IRRecorder). 
 
-
 Known Issue
 ---------------
 
 Android Infrared uses the Samsung customized IR Blast API, and doesn't compatible with Android 4.4 KitKat standard `ConsumerIrManager`. 
 The Adpoting to support KitKat standard API process is already in progress.
+
+Road Map
+-----------
+
+* Support Android 4.4 KitKat `ConsumerIrManager` API
+* Auto adpative between KitKat API and Samsung API
+* Support Proto code
