@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
@@ -81,16 +80,6 @@ public class ControlPanelFragment extends Fragment {
 
         loadPanel();
 
-        checkIrSupport();
-    }
-
-    private void checkIrSupport() {
-        if (emitter.isIrdaSupported())
-            return;
-
-        FragmentActivity activity = getActivity();
-
-        Toast.makeText(activity, R.string.cannot_find_ir_error, LENGTH_LONG).show();
     }
 
     protected void loadPanel() {

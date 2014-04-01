@@ -1,11 +1,13 @@
 package com.github.timnew.smartremotecontrol;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.ViewById;
@@ -17,6 +19,9 @@ public class MainActivity
     @ViewById
     protected ViewPager pager;
     private PagerActionBarAdapter pagerActionBarAdapter;
+
+    @Bean
+    protected InfraredEmitter emitter;
 
     @AfterViews
     void afterViews() {
@@ -32,6 +37,19 @@ public class MainActivity
 //        pagerActionBarAdapter.registerRemotePanel("debug", "http://192.168.1.6:4000/panels/tv%20box/index.html#box");
 
         pagerActionBarAdapter.notifyDataSetChanged();
+
+        checkIrSupport();
+    }
+
+    private void checkIrSupport() {
+        if (emitter.isIrdaSupported())
+            return;
+
+        finish();
+
+        Intent intent = new Intent(this, DialogHostActivity.class);
+
+        startActivity(intent);
     }
 
     @Override
