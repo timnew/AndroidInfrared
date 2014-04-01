@@ -8,8 +8,11 @@ import java.lang.reflect.Method;
 
 public class IrdaManager {
 
+    public static final String IRDA_SERVICE = "irda";
+
+
     public static IrdaManager getIrdaManager(Context applicationContext) {
-        Object irdaService = applicationContext.getSystemService("irda");
+        Object irdaService = applicationContext.getSystemService(IRDA_SERVICE);
 
         if (irdaService == null)
             return null;
@@ -25,15 +28,12 @@ public class IrdaManager {
     private final Object irdaService;
     private final Method writeIrSendMethod;
 
-    private final Method readIrSendMethod;
-
     private IrdaManager(Object irdaService) throws NoSuchMethodException {
         this.irdaService = irdaService;
 
         Class<?> irdaServiceClass = irdaService.getClass();
 
         writeIrSendMethod = irdaServiceClass.getMethod("write_irsend", String.class);
-        readIrSendMethod = irdaServiceClass.getMethod("read_irsend");
     }
 
     public IrdaManager sendSequence(String sequence) {
@@ -50,18 +50,6 @@ public class IrdaManager {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-    }
-
-    private String rawRead() {
-        try {
-            return (String) readIrSendMethod.invoke(irdaService);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
 }
