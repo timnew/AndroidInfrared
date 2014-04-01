@@ -2,5 +2,6 @@
 
     <string name="app_name">Smart Remote Control</string>
 	<string name="menu_settings">Settings</string>
+    <string name="cannot_find_ir_error">Infrared LED cannot be found on your device, Smart Remote Control doesn\'t supported on your device.</string>
 
 </resources>

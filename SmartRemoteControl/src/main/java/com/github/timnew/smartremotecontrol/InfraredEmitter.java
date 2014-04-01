@@ -33,6 +33,10 @@ public class InfraredEmitter {
         manager = IrdaManager.getIrdaManager(context);
     }
 
+    public boolean isIrdaSupported() {
+        return manager != null;
+    }
+
     private void logAction(String type, int size, long data) {
         Log.i(IR_COMMAND, format("[%s](%d bits): 0x%X", type, size, data));
     }

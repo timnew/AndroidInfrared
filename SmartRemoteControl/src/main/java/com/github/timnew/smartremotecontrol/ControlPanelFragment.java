@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
@@ -17,6 +18,8 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.FragmentArg;
 import com.googlecode.androidannotations.annotations.ViewById;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 @EFragment(R.layout.control_panel_fragment)
 public class ControlPanelFragment extends Fragment {
@@ -52,7 +55,7 @@ public class ControlPanelFragment extends Fragment {
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
                 String messageText = String.format("[%s](#%d):%s", consoleMessage.sourceId(), consoleMessage.lineNumber(), consoleMessage.message());
-                Toast.makeText(getActivity(), consoleMessage.message(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), consoleMessage.message(), LENGTH_LONG).show();
 
                 switch (consoleMessage.messageLevel()) {
                     case DEBUG:
@@ -77,6 +80,17 @@ public class ControlPanelFragment extends Fragment {
         });
 
         loadPanel();
+
+        checkIrSupport();
+    }
+
+    private void checkIrSupport() {
+        if (emitter.isIrdaSupported())
+            return;
+
+        FragmentActivity activity = getActivity();
+
+        Toast.makeText(activity, R.string.cannot_find_ir_error, LENGTH_LONG).show();
     }
 
     protected void loadPanel() {
