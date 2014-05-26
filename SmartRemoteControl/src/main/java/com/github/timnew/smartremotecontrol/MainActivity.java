@@ -42,7 +42,7 @@ public class MainActivity
     }
 
     private void checkIrSupport() {
-        if (emitter.isIrdaSupported())
+        if (emitter.hasIrEmitter())
             return;
 
         finish();
