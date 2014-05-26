@@ -3,18 +3,20 @@ package com.github.timnew.androidinfrared;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandBuilder {
+public class IrCommandBuilder {
+
     public static final long TOP_BIT_32 = 0x1L << 31;
     public static final long TOP_BIT_64 = 0x1L << 63;
+
     private final int frequency;
     private final List<Integer> buffer;
     private Boolean lastMark;
 
-    public static CommandBuilder commandBuilder(int frequency) {
-        return new CommandBuilder(frequency);
+    public static IrCommandBuilder irCommandBuilder(int frequency) {
+        return new IrCommandBuilder(frequency);
     }
 
-    private CommandBuilder(int frequencyKHz) {
+    private IrCommandBuilder(int frequencyKHz) {
         this.frequency = frequencyKHz;
 
         buffer = new ArrayList<Integer>();
@@ -23,7 +25,7 @@ public class CommandBuilder {
         lastMark = null;
     }
 
-    private CommandBuilder appendMark(boolean mark, int interval) {
+    private IrCommandBuilder appendSymbol(boolean mark, int interval) {
         if (lastMark == null || lastMark != mark) {
             buffer.add(interval);
             lastMark = mark;
@@ -35,35 +37,35 @@ public class CommandBuilder {
         return this;
     }
 
-    public CommandBuilder mark(int interval) {
-        return appendMark(true, interval);
+    public IrCommandBuilder mark(int interval) {
+        return appendSymbol(true, interval);
     }
 
-    public CommandBuilder space(int interval) {
-        return appendMark(false, interval);
+    public IrCommandBuilder space(int interval) {
+        return appendSymbol(false, interval);
     }
 
-    public CommandBuilder pair(int on, int off) {
+    public IrCommandBuilder pair(int on, int off) {
         return mark(on).space(off);
     }
 
-    public CommandBuilder reversePair(int off, int on) {
+    public IrCommandBuilder reversePair(int off, int on) {
         return space(off).mark(on);
     }
 
-    public CommandBuilder delay(int ms) {
-        return space(ms * frequency / 1000);
+    public IrCommandBuilder delay(int ms) {
+        return space(ms);
     }
 
-    public CommandBuilder sequence(SequenceDefinition definition, int length, int data) {
+    public IrCommandBuilder sequence(SequenceDefinition definition, int length, int data) {
         return sequence(definition, TOP_BIT_32, length, data);
     }
 
-    public CommandBuilder sequence(SequenceDefinition definition, int length, long data) {
+    public IrCommandBuilder sequence(SequenceDefinition definition, int length, long data) {
         return sequence(definition, TOP_BIT_64, length, data);
     }
 
-    public CommandBuilder sequence(SequenceDefinition definition, long topBit, int length, long data) {
+    public IrCommandBuilder sequence(SequenceDefinition definition, long topBit, int length, long data) {
         for (int index = 0; index < length; index++) {
             if ((data & topBit) != 0) {
                 definition.one(this, index);
@@ -73,18 +75,22 @@ public class CommandBuilder {
 
             data <<= 1;
         }
+
         return this;
     }
 
-    public String build() {
-        StringBuilder result = new StringBuilder();
+    public IrCommand build() {
+        return new IrCommand(getFrequency(), buildSequence());
+    }
 
-        for (Integer num : buffer) {
-            result.append(num);
-            result.append(',');
+    public int[] buildSequence() {
+        int[] result = new int[buffer.size()];
+
+        for (int i = 0; i < buffer.size(); i++) {
+            result[i] = buffer.get(i);
         }
 
-        return result.toString();
+        return result;
     }
 
     public int getFrequency() {
@@ -98,12 +104,12 @@ public class CommandBuilder {
     public static SequenceDefinition simpleSequence(final int oneMark, final int oneSpace, final int zeroMark, final int zeroSpace) {
         return new SequenceDefinition() {
             @Override
-            public void one(CommandBuilder builder, int index) {
+            public void one(IrCommandBuilder builder, int index) {
                 builder.pair(oneMark, oneSpace);
             }
 
             @Override
-            public void zero(CommandBuilder builder, int index) {
+            public void zero(IrCommandBuilder builder, int index) {
                 builder.pair(zeroMark, zeroSpace);
             }
         };
@@ -111,9 +117,10 @@ public class CommandBuilder {
 
     public static abstract interface SequenceDefinition {
 
-        public abstract void one(CommandBuilder builder, int index);
+        public abstract void one(IrCommandBuilder builder, int index);
 
-        public abstract void zero(CommandBuilder builder, int index);
+        public abstract void zero(IrCommandBuilder builder, int index);
 
     }
 }
+

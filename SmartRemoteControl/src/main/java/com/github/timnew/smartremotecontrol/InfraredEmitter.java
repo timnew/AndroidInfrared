@@ -3,7 +3,7 @@ package com.github.timnew.smartremotecontrol;
 import android.content.Context;
 import android.util.Log;
 
-import com.github.timnew.androidinfrared.IrdaManager;
+import com.github.timnew.androidinfrared.ConsumerIrManagerSamsung;
 import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
@@ -26,11 +26,11 @@ public class InfraredEmitter {
     @RootContext
     protected Context context;
 
-    private IrdaManager manager;
+    private ConsumerIrManagerSamsung manager;
 
     @AfterInject
     protected void afterInjects() {
-        manager = IrdaManager.getIrdaManager(context);
+        manager = ConsumerIrManagerSamsung.getIrdaManager(context);
     }
 
     public boolean isIrdaSupported() {
