@@ -20,7 +20,6 @@ public class IrCommandBuilder {
         this.frequency = frequencyKHz;
 
         buffer = new ArrayList<Integer>();
-        buffer.add(frequencyKHz);
 
         lastMark = null;
     }
@@ -54,7 +53,7 @@ public class IrCommandBuilder {
     }
 
     public IrCommandBuilder delay(int ms) {
-        return space(ms);
+        return space(ms * frequency / 1000);
     }
 
     public IrCommandBuilder sequence(SequenceDefinition definition, int length, int data) {
@@ -84,7 +83,7 @@ public class IrCommandBuilder {
     }
 
     public int[] buildSequence() {
-        return buildRaw(buffer);
+        return buildRawSequence(buffer);
     }
 
     public int getFrequency() {
@@ -109,11 +108,11 @@ public class IrCommandBuilder {
         };
     }
 
-    public static int[] buildRaw(int... rawData) {
+    public static int[] buildRawSequence(int... rawData) {
         return rawData;
     }
 
-    public static int[] buildRaw(List<Integer> buffer) {
+    public static int[] buildRawSequence(List<Integer> buffer) {
         int[] result = new int[buffer.size()];
 
         for (int i = 0; i < buffer.size(); i++) {
@@ -123,9 +122,9 @@ public class IrCommandBuilder {
         return result;
     }
 
-    public static int[] buildRaw(Iterable<Integer> dataStream) {
+    public static int[] buildRawSequence(Iterable<Integer> dataStream) {
         if (dataStream instanceof List) {
-            return buildRaw((List<Integer>) dataStream);
+            return buildRawSequence((List<Integer>) dataStream);
         }
 
         ArrayList<Integer> buffer = new ArrayList<Integer>();
@@ -133,9 +132,8 @@ public class IrCommandBuilder {
             buffer.add(data);
         }
 
-        return buildRaw(buffer);
+        return buildRawSequence(buffer);
     }
-
 
     public static abstract interface SequenceDefinition {
 

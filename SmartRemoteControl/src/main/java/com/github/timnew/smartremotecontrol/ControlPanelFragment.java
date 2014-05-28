@@ -37,7 +37,7 @@ public class ControlPanelFragment extends Fragment {
     protected InfraredEmitter emitter;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @AfterViews
     protected void afterView() {
         WebSettings settings = panel.getSettings();
@@ -79,7 +79,6 @@ public class ControlPanelFragment extends Fragment {
         });
 
         loadPanel();
-
     }
 
     protected void loadPanel() {
