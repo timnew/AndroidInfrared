@@ -66,7 +66,7 @@ Code Sample
         IrCommandBuilder sequenceBuilder = IrCommandBuilder.irCommandBuilder(NEC_FREQUENCY); // Static factory method
         IrCommand sequenceCommand = builder
                 .pair(HDR_MARK, HDR_SPACE)  // Lead-in sequence
-                .sequence(necSequence, 4, 0xFC000000)
+                .sequence(necSequence, 8, 0xFC000000) // As same as previous one
                 .mark(BIT_MARK)             // lead-out sequence
                 .build();
 
