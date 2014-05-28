@@ -209,7 +209,7 @@ public class IrCommand {
 
     public static class Pronto {
 
-        public static IrCommand buildProto(String protoText) {
+        public static IrCommand buildPronto(String protoText) {
             String[] codeParts = protoText.split(" ");
 
             int[] protoSequence = new int[codeParts.length];
@@ -218,10 +218,10 @@ public class IrCommand {
                 protoSequence[i] = Integer.parseInt(codeParts[i], 16);
             }
 
-            return buildProto(protoSequence);
+            return buildPronto(protoSequence);
         }
 
-        public static IrCommand buildProto(int[] protoSequence) {
+        public static IrCommand buildPronto(int[] protoSequence) {
             int frequency = (int) (1000000 / (protoSequence[1] * 0.241246));
             int T = (int) (protoSequence[1] * 0.241246);
 

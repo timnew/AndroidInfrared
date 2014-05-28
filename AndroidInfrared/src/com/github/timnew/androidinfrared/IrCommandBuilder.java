@@ -84,13 +84,7 @@ public class IrCommandBuilder {
     }
 
     public int[] buildSequence() {
-        int[] result = new int[buffer.size()];
-
-        for (int i = 0; i < buffer.size(); i++) {
-            result[i] = buffer.get(i);
-        }
-
-        return result;
+        return buildRaw(buffer);
     }
 
     public int getFrequency() {
@@ -114,6 +108,34 @@ public class IrCommandBuilder {
             }
         };
     }
+
+    public static int[] buildRaw(int... rawData) {
+        return rawData;
+    }
+
+    public static int[] buildRaw(List<Integer> buffer) {
+        int[] result = new int[buffer.size()];
+
+        for (int i = 0; i < buffer.size(); i++) {
+            result[i] = buffer.get(i);
+        }
+
+        return result;
+    }
+
+    public static int[] buildRaw(Iterable<Integer> dataStream) {
+        if (dataStream instanceof List) {
+            return buildRaw((List<Integer>) dataStream);
+        }
+
+        ArrayList<Integer> buffer = new ArrayList<Integer>();
+        for (int data : dataStream) {
+            buffer.add(data);
+        }
+
+        return buildRaw(buffer);
+    }
+
 
     public static abstract interface SequenceDefinition {
 
