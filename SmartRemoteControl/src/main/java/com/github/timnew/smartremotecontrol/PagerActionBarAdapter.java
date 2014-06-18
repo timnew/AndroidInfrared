@@ -143,7 +143,9 @@ public class PagerActionBarAdapter
         fragmentBuilders.add(new FragmentBuilder() {
             @Override
             public Fragment buildFragment() {
-                return ControlPanelFragment_.builder().layoutUrl(url).build();
+                ControlPanelFragment build = null;
+//                build = ControlPanelFragment_.builder().layoutUrl(url).build();
+                return build;
             }
 
             @Override

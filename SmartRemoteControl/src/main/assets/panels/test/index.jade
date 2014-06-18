@@ -1,0 +1,21 @@
+extends ../../layouts/layout
+
+block body
+  div(data-role="page", data-theme="b")
+    div(data-role="content", data-widget='SimplePanel', data-ir-mapping='./test.json')
+      .ui-grid-a
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all: span.fa.fa-retweet
+        .ui-block-b
+          a.ui-shadow.ui-btn.ui-corner-all: span.fa.fa-power-off
+
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="volume_up"): span.fa.fa-volume-up
+        .ui-block-b
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="program_up"): span.fa.fa-caret-square-o-up
+
+        .ui-block-a
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="volume_down"): span.fa.fa-volume-down
+        .ui-block-b
+          a.ui-shadow.ui-btn.ui-corner-all(data-ir="program_down"): span.fa.fa-caret-square-o-down
+

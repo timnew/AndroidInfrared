@@ -1,0 +1,26 @@
+{
+    "volume_up": {
+        "type": "NEC",
+        "code": 2149516029,
+        "length": 32,
+        "voice": true
+    },
+    "volume_down": {
+        "type": "NEC",
+        "code": 2149546119,
+        "length": 32,
+        "voice": true
+    },
+    "program_up": {
+        "type": "NEC",
+        "code": 2149548669,
+        "length": 32,
+        "voice": true
+    },
+    "program_down": {
+        "type": "NEC",
+        "code": 2149532349,
+        "length": 32,
+        "voice": true
+    }
+}

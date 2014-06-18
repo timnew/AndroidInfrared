@@ -1,0 +1,81 @@
+apply plugin: 'android'
+apply plugin: 'android-apt'
+apply plugin: 'grunt'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '19.1.0'
+    defaultConfig {
+        applicationId 'com.github.timnew.smartremotecontrol'
+        minSdkVersion 15
+        targetSdkVersion 19
+        versionCode 1
+        versionName '1.0'
+    }
+    buildTypes {
+        release {
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            resources.srcDirs = ['src/main/resources']
+            res.srcDirs = ['src/main/res']
+            assets.srcDirs = ['build/assets/']
+        }
+    }
+    productFlavors {
+    }
+}
+
+def AAVersion = '3.0.1'
+
+apt {
+    arguments {
+        androidManifestFile variant.processResources.manifestFile
+        resourcePackageName 'com.github.timnew.smartremotecontrol'
+    }
+}
+
+dependencies {
+    apt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+
+//    compile 'com.google.android:android:4.1.1.4'
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+//    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+//    compile 'ch.acra:acra:4.4.0'
+
+    compile project(':AndroidInfrared')
+}
+
+//task assembleAssets(type: Exec) {
+//    workingDir project.rootDir
+//
+//    commandLine '/usr/local/bin/grunt', 'build'
+//
+////    standardOutput = new ByteArrayOutputStream()
+////
+////    ext.output = {
+////        return standardOutput.toString()
+////    }
+//}
+
+assemble.dependsOn(grunt_build)
+
+android.applicationVariants.all { variant ->
+    variant.javaCompile.doFirst {
+        aptOutput = file("${project.buildDir}/generated/source/annotation/${variant.dirName}")
+        aptOutput.mkdirs()
+
+        variant.javaCompile.options.compilerArgs += [
+                '-processorpath', configurations.apt.asPath,
+                '-AandroidManifestFile=' + variant.processResources.manifestFile,
+                '-s', aptOutput
+        ]
+    }
+}

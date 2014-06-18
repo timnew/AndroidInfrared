@@ -14,25 +14,25 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON('package.json')    
     clean:
       all:
-        src: ['assets']
+        src: ['build/assets']
       
       skeleton:
-        src: ['assets/js','assets/css','assets/fonts']
+        src: ['build/assets/js','build/assets/css','build/assets/fonts']
 
       panels:
-        src: ['assets/panels/']
+        src: ['build/assets/panels/']
 
     copy: 
       skeleton:        
-        cwd: 'assets-src/libs/'    
+        cwd: 'src/main/assets/libs/'    
         src: [ '**' ]
-        dest: 'assets'
+        dest: 'build/assets'
         expand: true                        
         
       panels: 
-        cwd: 'assets-src/panels/'    
+        cwd: 'src/main/assets/panels/'    
         src: [ '**/*', '!**/*.stylus', '!**/*.coffee', '!**/*.jade' ]
-        dest: 'assets/panels/'
+        dest: 'build/assets/panels/'
         expand: true   
     
     stylus:
@@ -42,27 +42,27 @@ module.exports = (grunt) ->
  
       skeleton:
         expand: true
-        cwd: 'assets-src/css/'
+        cwd: 'src/main/assets/css/'
         src: ['*.stylus']
-        dest: 'assets/css/'
+        dest: 'build/assets/css/'
         ext: '.css'
 
       panels:
         expand: true
-        cwd: 'assets-src/panels/'
+        cwd: 'src/main/assets/panels/'
         src: [ '**/*.styl' ],
-        dest: 'assets/panels/',
+        dest: 'build/assets/panels/',
         ext: '.css'    
 
     less:
       options:
-        paths: ['assets-src/css/imports/']
+        paths: ['src/main/assets/css/imports/']
 
       skeleton:
         expand: true
-        cwd: 'assets-src/css'
+        cwd: 'src/main/assets/css'
         src: ['*.less']
-        dest: 'assets/css'        
+        dest: 'build/assets/css'        
         ext: '.css'
 
     jade:    
@@ -73,64 +73,64 @@ module.exports = (grunt) ->
 
       panels:
         expand: true 
-        cwd: 'assets-src/panels' 
+        cwd: 'src/main/assets/panels' 
         src: [ '**/*.jade' ] 
-        dest: 'assets/panels' 
+        dest: 'build/assets/panels' 
         ext: '.html'
 
     coffee: 
       skeleton:
         expand: true
-        cwd: 'assets-src/js/'
+        cwd: 'src/main/assets/js/'
         src: ['**.coffee']
-        dest: 'assets/js/'
+        dest: 'build/assets/js/'
         ext: '.js'
 
       panels:         
         expand: true
-        cwd: 'assets-src/panels/'
+        cwd: 'src/main/assets/panels/'
         src: [ '**/*.coffee' ]
-        dest: 'assets/panels/'
+        dest: 'build/assets/panels/'
         ext: '.js'
 
     watch:
       stylus:
-        files: 'assets-src/panels/**/*.styl'
+        files: 'src/main/assets/panels/**/*.styl'
         tasks: [ 'stylus:panels']
       
       scripts:
-        files: 'assets-src/panels/**/*.coffee'
+        files: 'src/main/assets/panels/**/*.coffee'
         tasks: [ 'coffee:panels' ]
       
       jade:
-        files: 'assets-src/panels/**/*.jade'
+        files: 'src/main/assets/panels/**/*.jade'
         tasks: [ 'jade:panels' ]
       
       copy: 
-        files: [ 'assets-src/panels/**', '!assets-src/panels/**/*.styl', '!assets-src/panels/**/*.coffee', '!assets-src/panels/**/*.jade' ]
+        files: [ 'src/main/assets/panels/**', '!src/main/assets/panels/**/*.styl', '!src/main/assets/panels/**/*.coffee', '!src/main/assets/panels/**/*.jade' ]
         tasks: [ 'copy:panels' ]
   
       skeleton_less:
-        files: 'assets-src/css/**.less'
+        files: 'src/main/assets/css/**.less'
         tasks: ['less:skeleton']
 
       skeleton_stylus:
-        files: 'assets-src/css/**.stylus'
+        files: 'src/main/assets/css/**.stylus'
         tasks: ['stylus:skeleton']
       
       skeleton_scripts:
-        files: 'assets-src/js/**.coffee'
+        files: 'src/main/assets/js/**.coffee'
         tasks: ['coffee:skeleton']
       
       skeleton_copy:
-        files: ['assets-src/libs/**','assets-src/js/*.js', 'assets-src/css/*.css', '!**.less', '!**.stylus','!**.coffee']
+        files: ['src/main/assets/libs/**','src/main/assets/js/*.js', 'src/main/assets/css/*.css', '!**.less', '!**.stylus','!**.coffee']
         tasks: ['copy:skeleton']
 
     connect:
       server:
         options:
           port: 4000
-          base: 'assets'
+          base: 'build/assets'
           hostname: '*'
         
   grunt.loadNpmTasks 'grunt-contrib-clean'
