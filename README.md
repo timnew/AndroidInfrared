@@ -6,7 +6,7 @@ Android Infrared is a infrared library drives IR LED built in Samsung devices, s
 Protocol Supported
 -------------------
 
-Android Infrared supports most of popular protocols avaiable nowadays, including:
+Android Infrared supports most of popular protocols available nowadays, including:
 
 * NEC
 * Sony
