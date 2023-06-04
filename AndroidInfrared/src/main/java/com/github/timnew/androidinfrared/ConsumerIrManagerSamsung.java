@@ -7,12 +7,10 @@ import java.lang.reflect.Method;
 
 public class ConsumerIrManagerSamsung extends ConsumerIrManager {
 
-    public static final String IRDA_SERVICE = "irda";
-
     public static final int MICRO_SECONDS_IN_A_SECOND = 1000000;
 
     public static ConsumerIrManagerSamsung getIrdaManager(Context applicationContext) {
-        Object irdaService = applicationContext.getSystemService(IRDA_SERVICE);
+        Object irdaService = applicationContext.getSystemService(Context.CONSUMER_IR_SERVICE);
 
         if (irdaService == null)
             return null;
